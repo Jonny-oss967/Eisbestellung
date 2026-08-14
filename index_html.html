@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ff7aa2">
+  <meta name="description" content="Eis-Bestellung – Erdbeer, Vanille und Schoko">
+  <title>Eis bestellen 🍦</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg, #fff5f8, #f3f8ff);
+      color: #222;
+      min-height: 100vh;
+    }
+    .wrap {
+      width: min(680px, 92%);
+      margin: 0 auto;
+      padding: 28px 0 40px;
+    }
+    .card {
+      background: rgba(255,255,255,.96);
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow: 0 12px 35px rgba(0,0,0,.10);
+    }
+    h1 {
+      text-align: center;
+      margin: 0 0 8px;
+      font-size: clamp(28px, 7vw, 42px);
+    }
+    .intro {
+      text-align: center;
+      color: #666;
+      margin: 0 0 25px;
+    }
+    .ice-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      margin: 12px 0;
+      border: 1px solid #e8e8e8;
+      border-radius: 18px;
+      background: #fff;
+    }
+    .emoji {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: #f7f7f7;
+      font-size: 32px;
+      flex: 0 0 58px;
+    }
+    .info { flex: 1; }
+    .info strong { display: block; font-size: 18px; margin-bottom: 4px; }
+    .info span { color: #777; font-size: 14px; }
+    .qty {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .qty button {
+      width: 40px;
+      height: 40px;
+      border: 0;
+      border-radius: 12px;
+      background: #f0f0f0;
+      font-size: 22px;
+      cursor: pointer;
+    }
+    .qty button:active { transform: scale(.96); }
+    .qty input {
+      width: 46px;
+      height: 40px;
+      text-align: center;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: 600;
+    }
+    label {
+      display: block;
+      margin-top: 18px;
+      margin-bottom: 7px;
+      font-weight: 600;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ddd;
+      border-radius: 13px;
+      font-size: 16px;
+      outline: none;
+    }
+    input[type="text"]:focus { border-color: #ff7aa2; }
+    .summary {
+      margin-top: 22px;
+      padding: 16px;
+      border-radius: 16px;
+      background: #f7f7f7;
+      line-height: 1.7;
+    }
+    .order-btn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 16px;
+      border: 0;
+      border-radius: 15px;
+      background: #ff6f9c;
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(255,111,156,.25);
+    }
+    .order-btn:active { transform: translateY(1px); }
+    .thanks {
+      display: none;
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 16px;
+      background: #eafaf0;
+      color: #18713a;
+      text-align: center;
+      font-weight: 700;
+    }
+    .note {
+      text-align: center;
+      margin-top: 16px;
+      color: #888;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    @media (max-width: 480px) {
+      .card { padding: 18px; }
+      .ice-card { gap: 10px; padding: 12px; }
+      .emoji { width: 50px; height: 50px; flex-basis: 50px; font-size: 27px; }
+      .qty button { width: 36px; height: 36px; }
+      .qty input { width: 40px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <h1>🍦 Eis bestellen</h1>
+      <p class="intro">Wähle deine Lieblingssorten und bestelle dein Eis.</p>
+
+      <div class="ice-card">
+        <div class="emoji">🍓</div>
+        <div class="info">
+          <strong>Erdbeer</strong>
+          <span>Leckeres Erdbeereis</span>
+        </div>
+        <div class="qty">
+          <button type="button" onclick="changeQty('erdbeer', -1)">−</button>
+          <input id="erdbeer" type="number" min="0" max="99" value="0" inputmode="numeric" onchange="fixQty(this)">
+          <button type="button" onclick="changeQty('erdbeer', 1)">+</button>
+        </div>
+      </div>
+
+      <div class="ice-card">
+        <div class="emoji">🍦</div>
+        <div class="info">
+          <strong>Vanille</strong>
+          <span>Cremiges Vanilleeis</span>
+        </div>
+        <div class="qty">
+          <button type="button" onclick="changeQty('vanille', -1)">−</button>
+          <input id="vanille" type="number" min="0" max="99" value="0" inputmode="numeric" onchange="fixQty(this)">
+          <button type="button" onclick="changeQty('vanille', 1)">+</button>
+        </div>
+      </div>
+
+      <div class="ice-card">
+        <div class="emoji">🍫</div>
+        <div class="info">
+          <strong>Schoko</strong>
+          <span>Schokoladiges Eis</span>
+        </div>
+        <div class="qty">
+          <button type="button" onclick="changeQty('schoko', -1)">−</button>
+          <input id="schoko" type="number" min="0" max="99" value="0" inputmode="numeric" onchange="fixQty(this)">
+          <button type="button" onclick="changeQty('schoko', 1)">+</button>
+        </div>
+      </div>
+
+      <label for="name">Dein Name</label>
+      <input id="name" type="text" placeholder="z. B. Jonah" autocomplete="name">
+
+      <div class="summary">
+        <strong>Deine Bestellung</strong>
+        <div id="summary">Noch keine Sorte ausgewählt.</div>
+      </div>
+
+      <button class="order-btn" type="button" onclick="order()">📧 Bestellung absenden</button>
+
+      <div id="thanks" class="thanks">
+        ✅ Danke für Ihre Bestellung!<br>
+        Deine E-Mail-App wird jetzt geöffnet.
+      </div>
+
+      <p class="note">
+        Beim Bestellen wird eine E-Mail mit deiner Auswahl vorbereitet.
+        Die Bestellung wird erst abgeschickt, wenn du sie in deiner E-Mail-App bestätigst.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const recipient = "jonah.lohmann12@gmx.de";
+
+    function getQty(id) {
+      return Math.max(0, Math.min(99, parseInt(document.getElementById(id).value) || 0));
+    }
+
+    function fixQty(input) {
+      input.value = Math.max(0, Math.min(99, parseInt(input.value) || 0));
+      updateSummary();
+    }
+
+    function changeQty(id, amount) {
+      const input = document.getElementById(id);
+      input.value = Math.max(0, Math.min(99, getQty(id) + amount));
+      updateSummary();
+    }
+
+    function updateSummary() {
+      const e = getQty("erdbeer");
+      const v = getQty("vanille");
+      const s = getQty("schoko");
+      const parts = [];
+
+      if (e) parts.push("🍓 Erdbeer: " + e);
+      if (v) parts.push("🍦 Vanille: " + v);
+      if (s) parts.push("🍫 Schoko: " + s);
+
+      document.getElementById("summary").innerHTML =
+        parts.length ? parts.join("<br>") : "Noch keine Sorte ausgewählt.";
+    }
+
+    function order() {
+      const e = getQty("erdbeer");
+      const v = getQty("vanille");
+      const s = getQty("schoko");
+      const name = document.getElementById("name").value.trim();
+
+      if (e + v + s === 0) {
+        alert("Bitte wähle mindestens eine Eissorte aus.");
+        return;
+      }
+
+      const lines = [
+        "Hallo,",
+        "",
+        "ich möchte folgendes Eis bestellen:",
+        ""
+      ];
+
+      if (e) lines.push("Erdbeer: " + e);
+      if (v) lines.push("Vanille: " + v);
+      if (s) lines.push("Schoko: " + s);
+
+      if (name) {
+        lines.push("", "Name: " + name);
+      }
+
+      lines.push("", "Vielen Dank!");
+
+      const subject = "Neue Eisbestellung";
+      const body = lines.join("\n");
+
+      document.getElementById("thanks").style.display = "block";
+
+      // mailto funktioniert browser- und geräteübergreifend.
+      // Der Browser öffnet den auf dem Gerät hinterlegten Mail-Handler.
+      const mailto =
+        "mailto:" + recipient +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(body);
+
+      window.location.href = mailto;
+    }
+
+    updateSummary();
+  </script>
+</body>
+</html>
